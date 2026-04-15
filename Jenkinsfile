@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/shravan-hegde/MyMavenSeleniumApp03.git'
@@ -14,17 +15,23 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -Dmaven.test.skip=true'
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
 
     post {
         success {
-            echo 'Build Successful'
+            echo 'Build successful!'
         }
         failure {
-            echo 'Build Failed'
+            echo 'Build failed!'
         }
     }
 }
